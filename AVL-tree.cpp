@@ -9,11 +9,11 @@
 
 class Node {
    public:
-  Node (int k) : Key(k) {}
-  int Key;
+  Node (int k, int h) : key(k), height(h) {}
+  int key;
   Node* left = NULL;
   Node* right = NULL;
-  int height = 1;
+  int height;
 };
 
 int height(Node* n) {
@@ -23,7 +23,7 @@ int height(Node* n) {
 }
 
 int max(int a, int b) {
-  return (a > b) ? a : b; // returns the larger Key
+  return (a > b) ? a : b; // returns the larger key
 }
 
 Node* rightRotate(Node* n) {
@@ -50,64 +50,66 @@ int getBalanceFactor(Node* N) {
   return height(N->left) - height(N->right);
 }
 
-Node* rebalnce(Node* node, int Key) {
+Node* rebalnce(Node* node, int key) {
   // Rebalnce the tree after adding the node
   node->height = 1 + max(height(node->left), height(node->right));
   int balanceFactor = getBalanceFactor(node);
   if (balanceFactor > 1) {
-    if (Key < node->left->Key) {                 // Right rotate
+    if (key < node->left->key) {                 // Right rotate
       return rightRotate(node);
-    } else if (Key > node->left->Key) {         // Left Right rotate
+    } else if (key > node->left->key) {         // Left Right rotate
       node->left = leftRotate(node->left);
       return rightRotate(node);
     }
   }
   if (balanceFactor < -1) {
-    if (Key > node->right->Key) {               // Left Rotate
+    if (key > node->right->key) {               // Left Rotate
       return leftRotate(node);
-    } else if (Key < node->right->Key) {        // Right Left Rotate
+    } else if (key < node->right->key) {        // Right Left Rotate
       node->right = rightRotate(node->right);
       return leftRotate(node);
     }
   }
+  std::cout << "Key " << key << std::endl;
+  std::cout << "height " << node->height << std::endl;
   return node;
-
 }
 
-Node* addNode(Node* node, int Key) {
+Node* addNode(Node* node, int key) {
   // add the node at an empty spot, or continue searching down the tree
   if (node == NULL) {
-    Node* n = new Node(Key);
+    Node* n = new Node(key, 1);
+    n = rebalnce(n, key);
     return (n);
   }
-  if (Key < node->Key)
-    node->left = addNode(node->left, Key);
-  else if (Key > node->Key)
-    node->right = addNode(node->right, Key);
+  if (key < node->key)
+    node->left = addNode(node->left, key);
+  else if (key > node->key)
+    node->right = addNode(node->right, key);
   else
     return node;
 
-  node = rebalnce(node, Key);
+  node = rebalnce(node, key);
   return node;
 }
 
 
 // Work in progress, Not currently working
-Node* removeNode(Node* node, int Key) {
+Node* removeNode(Node* node, int key) {
   if (node == NULL)
     return node;
-  if (Key < node->Key)
-    node->left = removeNode(node->left, Key);
-  else if (Key > node->Key)
-    node->right = removeNode(node->right, Key);
+  if (key < node->key)
+    node->left = removeNode(node->left, key);
+  else if (key > node->key)
+    node->right = removeNode(node->right, key);
   else {
   }
 
-  node = rebalnce(node, Key);
+  node = rebalnce(node, key);
   return node;
 }
 
-void displayTree(Node *root, std::string indent, bool last) {
+void displayTree(Node* root, std::string indent, bool last) {
   if (root != nullptr) {
     std::cout << indent;
     if (last) {
@@ -117,10 +119,26 @@ void displayTree(Node *root, std::string indent, bool last) {
       std::cout << "L----";
       indent += "|  ";
     }
-    std::cout << root->Key << std::endl;
+    std::cout << root->key << std::endl;
     displayTree(root->left, indent, false);
     displayTree(root->right, indent, true);
   }
+}
+
+Node* search(Node* node, int key) {
+  if (node == NULL) {
+    std::cout << "The node " << key << " was not found" << std::endl;
+    return nullptr;
+  }
+  else if (key == node->key) {
+    std::cout << "Node " << key << " was found!" << std::endl;
+    return node;
+  }
+  else if (key < node->key)
+    node->left = search(node->left, key);
+  else if (key > node->key)
+    node->right = search(node->right, key);
+  return node;
 }
 
 int main() {
@@ -135,4 +153,13 @@ int main() {
   }
   input.close();
   displayTree(root, "", true);
+
+  std::cout << std::endl << std::endl;
+  root = search(root,5);
+  root = search(root,20);
+  root = search(root,15);
+  root = search(root,8);
+  root = search(root,1000);
+
+  free(root);
 }
