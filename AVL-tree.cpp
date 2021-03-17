@@ -90,6 +90,12 @@ Node* addNode(Node* node, int key) {
   return node;
 }
 
+// Find the bottom of the tree and point to that
+Node* bottomNode(Node *node) {
+  while (node->left != NULL)
+    node = node->left;
+  return node;
+}
 
 // Work in progress, Not currently working
 Node* removeNode(Node* node, int key) {
@@ -100,9 +106,22 @@ Node* removeNode(Node* node, int key) {
   else if (key > node->key)
     node->right = removeNode(node->right, key);
   else {
+    if ((node->left == NULL) || (node->right == NULL)) {
+      Node* temp = node->left ? node->left : node->right;
+      if (temp == NULL) {
+        temp = node;
+        node = NULL;
+      } else
+        *node = *temp;
+      free(temp);
+    } else {
+      Node *temp = bottomNode(node->right);
+      node->key = temp->key;
+      node->right = removeNode(node->right, temp->key);
+    }
   }
 
-  node = rebalnce(node, key);
+  //node = rebalnce(node, 1);
   return node;
 }
 
@@ -157,6 +176,11 @@ int main() {
   root = search(root,15);
   root = search(root,8);
   root = search(root,1000);
+
+  std::cout << "After removing a node.." << std::endl;
+  root = removeNode(root, 8);
+  root = search(root,8);
+  displayTree(root, "", true);
 
   free(root);
 }
