@@ -70,8 +70,6 @@ Node* rebalnce(Node* node, int key) {
       return leftRotate(node);
     }
   }
-  std::cout << "Key " << key << std::endl;
-  std::cout << "height " << node->height << std::endl;
   return node;
 }
 
@@ -79,8 +77,7 @@ Node* addNode(Node* node, int key) {
   // add the node at an empty spot, or continue searching down the tree
   if (node == NULL) {
     Node* n = new Node(key, 1);
-    n = rebalnce(n, key);
-    return (n);
+    node = rebalnce(n, key);
   }
   if (key < node->key)
     node->left = addNode(node->left, key);
