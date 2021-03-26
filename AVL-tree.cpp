@@ -162,7 +162,7 @@ int main() {
   int temp;
 
   // Get starting timepoint
-  auto start = std::chrono::high_resolution_clock::now();
+  std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
 
   input.open ("input.txt");
   Node *root = NULL;
@@ -170,25 +170,25 @@ int main() {
   while(!input.eof()) {
     input >> temp;
     // Get starting timepoint per addNode
-    auto start3 = std::chrono::high_resolution_clock::now();
+    std::chrono::high_resolution_clock::time_point start3 = std::chrono::high_resolution_clock::now();
     root = addNode(root, temp);
     // Get ending timepoint
-    auto stop3 = std::chrono::high_resolution_clock::now();
+    std::chrono::high_resolution_clock::time_point stop3 = std::chrono::high_resolution_clock::now();
     // Get time taken and print it out per addNode call
-    auto duration3 = std::chrono::duration_cast<std::chrono::nanoseconds>(stop3 - start3);
+    std::chrono::nanoseconds duration3 = std::chrono::duration_cast<std::chrono::nanoseconds>(stop3 - start3);
     std::cout << "Time taken per addNode function while reading from file: " << duration3.count() << " nanoseconds" << std::endl;
   }
   input.close();
 
   // Get ending timepoint
-  auto stop = std::chrono::high_resolution_clock::now();
+  std::chrono::high_resolution_clock::time_point stop = std::chrono::high_resolution_clock::now();
 
   // Get time taken and print it out
-  auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start);
+  std::chrono::nanoseconds duration = std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start);
   std::cout << "Total time taken by addNode function while reading from file: " << duration.count() << " nanoseconds" << std::endl;
 
   // Get starting timepoint for displayTree
-  auto start2 = std::chrono::high_resolution_clock::now();
+  std::chrono::high_resolution_clock::time_point start2 = std::chrono::high_resolution_clock::now();
 
   displayTree(root, "", true);
 
@@ -208,9 +208,9 @@ int main() {
   free(root);
 
   // Get ending timepoint
-  auto stop2 = std::chrono::high_resolution_clock::now();
+  std::chrono::high_resolution_clock::time_point stop2 = std::chrono::high_resolution_clock::now();
 
   // Get time taken for displayTree and print it out
-  auto duration2 = std::chrono::duration_cast<std::chrono::nanoseconds>(stop2 - start2);
+  std::chrono::nanoseconds duration2 = std::chrono::duration_cast<std::chrono::nanoseconds>(stop2 - start2);
   std::cout << "Time taken by displayTree function: " << duration2.count() << " nanoseconds" << std::endl;
 }
