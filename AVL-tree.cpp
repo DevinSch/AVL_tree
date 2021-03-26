@@ -12,8 +12,8 @@ class Node {
    public:
   Node (int k, int h) : key(k), height(h) {}
   int key;
-  Node* left = NULL;
-  Node* right = NULL;
+  Node* left;
+  Node* right;
   int height;
 };
 
@@ -157,6 +157,43 @@ Node* search(Node* node, int key) {
   return node;
 }
 
+void experiment1() {
+  std::ifstream input;  // random list of 30 integers 
+  int temp;
+
+  input.open ("input4.txt");
+  Node *root = NULL;
+  std::cout << std::endl << "Experiment 1: Reading from file to insert 30 random, unsorted integers." << std::endl;
+  while(!input.eof()) {
+    input >> temp;
+    root = addNode(root, temp);
+  }
+  input.close();
+
+  displayTree(root, "", true);
+
+  // Searching and Deleting nodes
+  std::cout << std::endl << std::endl;
+  root = search(root,5);
+  root = search(root,20);
+  root = search(root,15);
+  root = search(root, 1);
+  root = search(root,78);
+  root = search(root,1000);
+
+  std::cout << "Removing node 78." << std::endl;
+  root = removeNode(root, 78);
+  root = search(root,78);
+
+  std::cout << "Removing node 1." << std::endl;
+  root = removeNode(root, 1);
+  root = search(root,1);
+
+  displayTree(root, "", true);
+
+  free(root);
+}
+
 int main() {
   std::ifstream input;
   int temp;
@@ -213,4 +250,7 @@ int main() {
   // Get time taken for displayTree and print it out
   std::chrono::nanoseconds duration2 = std::chrono::duration_cast<std::chrono::nanoseconds>(stop2 - start2);
   std::cout << "Time taken by displayTree function: " << duration2.count() << " nanoseconds" << std::endl;
+
+  // run experiment1
+  experiment1();
 }
