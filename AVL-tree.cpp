@@ -12,8 +12,8 @@ class Node {
    public:
   Node (int k, int h) : key(k), height(h) {}
   int key;
-  Node* left;
-  Node* right;
+  Node* left = NULL;
+  Node* right = NULL;
   int height;
 };
 
@@ -158,7 +158,7 @@ Node* search(Node* node, int key) {
 }
 
 void experiment1() {
-  std::ifstream input;  // random list of 30 integers 
+  std::ifstream input;  // random list of 30 integers
   int temp;
 
   input.open ("input4.txt");
