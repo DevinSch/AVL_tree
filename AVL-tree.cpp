@@ -10,10 +10,10 @@
 
 class Node {
    public:
-  Node (int k, int h) : key(k), height(h) {}
+  Node (int k, int h) : key(k), left(NULL), right(NULL), height(h) {}
   int key;
-  Node* left = NULL;
-  Node* right = NULL;
+  Node* left;
+  Node* right;
   int height;
 };
 
