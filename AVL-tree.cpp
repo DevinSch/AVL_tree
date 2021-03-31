@@ -157,41 +157,158 @@ Node* search(Node* node, int key) {
   return node;
 }
 
-void experiment1() {
-  std::ifstream input;  // random list of 30 integers
+// experiment 1: inserts all elements from file, searches for 10 elements, then deletes 5 elements
+void experiment1(std::ifstream& inputFile) {
   int temp;
 
-  input.open ("input4.txt");
   Node *root = NULL;
-  std::cout << std::endl << "Experiment 1: Reading from file to insert 30 random, unsorted integers." << std::endl;
-  while(!input.eof()) {
-    input >> temp;
+  std::cout << std::endl << "Experiment 1: Reading from file to insert integers." << std::endl;
+
+  std::chrono::high_resolution_clock::time_point start1 = std::chrono::high_resolution_clock::now();
+
+  while(!inputFile.eof()) {
+    inputFile >> temp;
+
+    std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
+
     root = addNode(root, temp);
+
+    std::chrono::high_resolution_clock::time_point stop = std::chrono::high_resolution_clock::now();
+    std::chrono::nanoseconds duration = std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start);
+    std::cout << "Time taken per addNode function while reading from file: " << duration.count() << " nanoseconds" << std::endl;
   }
-  input.close();
+
+  std::chrono::high_resolution_clock::time_point stop1 = std::chrono::high_resolution_clock::now();
+  std::chrono::nanoseconds duration1 = std::chrono::duration_cast<std::chrono::nanoseconds>(stop1 - start1);
+  std::cout << "Total time taken to add all elements to tree from file: " << duration1.count() << " nanoseconds" << std::endl;
 
   displayTree(root, "", true);
 
-  // Searching and Deleting nodes
-  std::cout << std::endl << std::endl;
+ std::cout << std::endl << std::endl;
+
+  // Searching for 10 nodes
+   std::cout << "Searching for 10 nodes: 5, 20, 156, 1, 78, 1000, 15, 86, 14, 6, 99." << std::endl;
+
+  std::chrono::high_resolution_clock::time_point start2 = std::chrono::high_resolution_clock::now();
+
   root = search(root,5);
   root = search(root,20);
-  root = search(root,15);
-  root = search(root, 1);
+  root = search(root,156);
+  root = search(root,1);
   root = search(root,78);
   root = search(root,1000);
+  root = search(root,15);
+  root = search(root,86);
+  root = search(root,14);
+  root = search(root,6);
+  root = search(root,99);
 
-  std::cout << "Removing node 78." << std::endl;
-  root = removeNode(root, 78);
-  root = search(root,78);
+  std::chrono::high_resolution_clock::time_point stop2 = std::chrono::high_resolution_clock::now();
+  std::chrono::nanoseconds duration2 = std::chrono::duration_cast<std::chrono::nanoseconds>(stop2 - start2);
+  std::cout << "Total time taken to search for 10 elements: " << duration2.count() << " nanoseconds" << std::endl;
 
-  std::cout << "Removing node 1." << std::endl;
-  root = removeNode(root, 1);
-  root = search(root,1);
+  // Deleting 5 nodes
+  std::cout << "Deleting 5 nodes: 2, 62, 14, 283, 99; if they exist." << std::endl;
+
+  std::chrono::high_resolution_clock::time_point start3 = std::chrono::high_resolution_clock::now();
+
+  root = removeNode(root, 2);
+  root = removeNode(root, 62);
+  root = removeNode(root, 14);
+  root = removeNode(root, 283);
+  root = removeNode(root, 99);
+  
+  std::chrono::high_resolution_clock::time_point stop3 = std::chrono::high_resolution_clock::now();
+  std::chrono::nanoseconds duration3 = std::chrono::duration_cast<std::chrono::nanoseconds>(stop3 - start3);
+  std::cout << "Total time taken to delete and search for 5 elements: " << duration3.count() << " nanoseconds" << std::endl;
 
   displayTree(root, "", true);
 
   free(root);
+
+  std::cout << std::endl << std::endl;
+}
+
+// experiment2: inserts all elements, deletes 10 elements, then searches for 15 elements
+void experiment2(std::ifstream& inputFile) {
+  int temp;
+
+  Node *root = NULL;
+  std::cout << std::endl << "Experiment 2: Reading from file to insert integers." << std::endl;
+
+  std::chrono::high_resolution_clock::time_point start1 = std::chrono::high_resolution_clock::now();
+
+  while(!inputFile.eof()) {
+    inputFile >> temp;
+
+    std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
+
+    root = addNode(root, temp);
+
+    std::chrono::high_resolution_clock::time_point stop = std::chrono::high_resolution_clock::now();
+    std::chrono::nanoseconds duration = std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start);
+    std::cout << "Time taken per addNode function while reading from file: " << duration.count() << " nanoseconds" << std::endl;
+  }
+
+  std::chrono::high_resolution_clock::time_point stop1 = std::chrono::high_resolution_clock::now();
+  std::chrono::nanoseconds duration1 = std::chrono::duration_cast<std::chrono::nanoseconds>(stop1 - start1);
+  std::cout << "Total time taken to add all elements to tree from file: " << duration1.count() << " nanoseconds" << std::endl;
+
+  displayTree(root, "", true);
+
+  // Deleting nodes
+  std::cout << "Removing 10 nodes: 78, 1, 14, 66, 100, 30, 283, 4, 56, 32; if they exist." << std::endl;
+
+  std::chrono::high_resolution_clock::time_point start2 = std::chrono::high_resolution_clock::now();
+
+  root = removeNode(root, 78);
+  root = removeNode(root, 1);
+  root = removeNode(root, 14);
+  root = removeNode(root, 66);
+  root = removeNode(root, 100);
+  root = removeNode(root, 30);
+  root = removeNode(root, 283);
+  root = removeNode(root, 4);
+  root = removeNode(root, 56);
+  root = removeNode(root, 32);
+  
+
+  std::chrono::high_resolution_clock::time_point stop2 = std::chrono::high_resolution_clock::now();
+  std::chrono::nanoseconds duration2 = std::chrono::duration_cast<std::chrono::nanoseconds>(stop2 - start2);
+  std::cout << "Total time taken to search for 10 elements: " << duration2.count() << " nanoseconds" << std::endl;
+
+  displayTree(root, "", true);
+
+  std::cout << std::endl << std::endl;
+
+  // Searching for 15 nodes
+  std::cout << "Searching for 15 nodes: 5, 20, 156, 1, 78, 1000, 90, 204, 24, 2, 42, 99, 25, 12, 873." << std::endl;
+
+  std::chrono::high_resolution_clock::time_point start3 = std::chrono::high_resolution_clock::now();
+
+  root = search(root,5);
+  root = search(root,20);
+  root = search(root,156);
+  root = search(root,1);
+  root = search(root,78);
+  root = search(root,1000);
+  root = search(root,90);
+  root = search(root,204);
+  root = search(root,24);
+  root = search(root,2);
+  root = search(root,42);
+  root = search(root,99);
+  root = search(root,25);
+  root = search(root,12);
+  root = search(root,873);
+
+  std::chrono::high_resolution_clock::time_point stop3 = std::chrono::high_resolution_clock::now();
+  std::chrono::nanoseconds duration3 = std::chrono::duration_cast<std::chrono::nanoseconds>(stop3 - start3);
+  std::cout << "Total time taken to delete and search for 5 elements: " << duration3.count() << " nanoseconds" << std::endl;
+
+  free(root);
+
+  std::cout << std::endl << std::endl;
 }
 
 int main() {
@@ -201,9 +318,9 @@ int main() {
   // Get starting timepoint
   std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
 
-  input.open ("input.txt");
+  input.open ("input2.txt");
   Node *root = NULL;
-  std::cout << "Reading from file " << std::endl;
+  std::cout << "TEST: Reading from file input2.txt" << std::endl;
   while(!input.eof()) {
     input >> temp;
     // Get starting timepoint per addNode
@@ -251,6 +368,55 @@ int main() {
   std::chrono::nanoseconds duration2 = std::chrono::duration_cast<std::chrono::nanoseconds>(stop2 - start2);
   std::cout << "Time taken by displayTree function: " << duration2.count() << " nanoseconds" << std::endl;
 
-  // run experiment1
-  experiment1();
-}
+  std::ifstream inputFile;
+  std::ifstream inputFile2;
+  std::ifstream inputFile3;
+  std::ifstream inputFile4;
+  std::ifstream inputFile5;
+  std::ifstream inputFile6;
+
+
+  // run experiment1 on unsorted lists
+  inputFile.open("input_15_unsorted.txt");
+  experiment1(inputFile); 
+  inputFile.close();
+  inputFile2.open("input_30_unsorted.txt");
+  experiment1(inputFile2); 
+  inputFile2.close();
+  inputFile3.open("input_100_unsorted.txt");
+  experiment1(inputFile3);
+  inputFile3.close();
+
+  // run experiment1 on sorted lists
+  inputFile4.open("input_15_sorted.txt");
+  experiment1(inputFile4);  
+  inputFile4.close();
+  inputFile5.open("input_30_sorted.txt");
+  experiment1(inputFile5); 
+  inputFile5.close();
+  inputFile6.open("input_100_sorted.txt");
+  experiment1(inputFile6);
+  inputFile6.close();
+  
+  // run experiment2 on unsorted lists
+  inputFile.open("input_15_unsorted.txt");
+  experiment2(inputFile);
+  inputFile.close();
+  inputFile2.open("input_30_unsorted.txt");
+  experiment2(inputFile2);
+  inputFile2.close();
+  inputFile3.open("input_100_unsorted.txt");
+  experiment2(inputFile3);
+  inputFile3.close();
+
+  // run experiment2 on sorted lists
+  inputFile4.open("input_15_sorted.txt");
+  experiment2(inputFile4); 
+  inputFile4.close();
+  inputFile5.open("input_30_sorted.txt");
+  experiment2(inputFile5); 
+  inputFile5.close();
+  inputFile6.open("input_100_sorted.txt");
+  experiment2(inputFile6);
+  inputFile6.close();
+}  
