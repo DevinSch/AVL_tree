@@ -8,6 +8,8 @@
 #include <fstream>
 #include <chrono>
 
+int MemoryUsed = 0; // Used to track all memory curently being used
+
 class Node {
    public:
   Node (int k, int h) : key(k), left(NULL), right(NULL), height(h) {}
@@ -16,6 +18,21 @@ class Node {
   Node* right;
   int height;
 };
+
+// Override the new operator to keep track of memory being used when new is called
+void* operator new(size_t size) {
+  std::cout << "Allocating " << size << " bytes" << std::endl;
+  MemoryUsed += size;
+  return malloc(size);
+}
+
+// Overside the delete operator to keep track of memory being freed when delete is called
+void operator delete(void* memory, size_t size) {
+  std::cout << "Deallocating " << size << " bytes" << std::endl;
+  MemoryUsed -= size;
+  free(memory);
+}
+
 
 int height(Node* n) {
   if (n == NULL)
@@ -113,7 +130,7 @@ Node* removeNode(Node* node, int key) {
         node = NULL;
       } else
         *node = *temp;
-      free(temp);
+      delete(temp);
     } else {
       Node *temp = bottomNode(node->right);
       node->key = temp->key;
@@ -155,6 +172,18 @@ Node* search(Node* node, int key) {
   else if (key > node->key)
     node->right = search(node->right, key);
   return node;
+}
+
+// Free all memory used in a given tree, should be used to complete deallocating
+// all the memory used by that tree from the root node given
+void destroy_tree(Node* node) {
+  if (node != nullptr) {
+    if (node->left!=NULL)
+      destroy_tree(node->left);
+    if (node->right!=NULL)
+      destroy_tree(node->right);
+  }
+  delete(node);
 }
 
 // experiment 1: inserts all elements from file, searches for 10 elements, then deletes 5 elements
@@ -217,14 +246,14 @@ void experiment1(std::ifstream& inputFile) {
   root = removeNode(root, 14);
   root = removeNode(root, 283);
   root = removeNode(root, 99);
-  
+
   std::chrono::high_resolution_clock::time_point stop3 = std::chrono::high_resolution_clock::now();
   std::chrono::nanoseconds duration3 = std::chrono::duration_cast<std::chrono::nanoseconds>(stop3 - start3);
   std::cout << "Total time taken to delete and search for 5 elements: " << duration3.count() << " nanoseconds" << std::endl;
 
   displayTree(root, "", true);
 
-  free(root);
+  delete(root);
 
   std::cout << std::endl << std::endl;
 }
@@ -271,7 +300,7 @@ void experiment2(std::ifstream& inputFile) {
   root = removeNode(root, 4);
   root = removeNode(root, 56);
   root = removeNode(root, 32);
-  
+
 
   std::chrono::high_resolution_clock::time_point stop2 = std::chrono::high_resolution_clock::now();
   std::chrono::nanoseconds duration2 = std::chrono::duration_cast<std::chrono::nanoseconds>(stop2 - start2);
@@ -306,7 +335,7 @@ void experiment2(std::ifstream& inputFile) {
   std::chrono::nanoseconds duration3 = std::chrono::duration_cast<std::chrono::nanoseconds>(stop3 - start3);
   std::cout << "Total time taken to delete and search for 5 elements: " << duration3.count() << " nanoseconds" << std::endl;
 
-  free(root);
+  delete(root);
 
   std::cout << std::endl << std::endl;
 }
@@ -358,9 +387,10 @@ int main() {
   root = removeNode(root, 8);
   root = search(root,8);
   displayTree(root, "", true);
-
-  free(root);
-
+  std::cout << "Total memory used " << MemoryUsed << "bytes " << std::endl;
+  destroy_tree(root);
+  std::cout << "Memory after free " << MemoryUsed << "bytes " << std::endl;
+/*
   // Get ending timepoint
   std::chrono::high_resolution_clock::time_point stop2 = std::chrono::high_resolution_clock::now();
 
@@ -378,10 +408,10 @@ int main() {
 
   // run experiment1 on unsorted lists
   inputFile.open("input_15_unsorted.txt");
-  experiment1(inputFile); 
+  experiment1(inputFile);
   inputFile.close();
   inputFile2.open("input_30_unsorted.txt");
-  experiment1(inputFile2); 
+  experiment1(inputFile2);
   inputFile2.close();
   inputFile3.open("input_100_unsorted.txt");
   experiment1(inputFile3);
@@ -389,15 +419,15 @@ int main() {
 
   // run experiment1 on sorted lists
   inputFile4.open("input_15_sorted.txt");
-  experiment1(inputFile4);  
+  experiment1(inputFile4);
   inputFile4.close();
   inputFile5.open("input_30_sorted.txt");
-  experiment1(inputFile5); 
+  experiment1(inputFile5);
   inputFile5.close();
   inputFile6.open("input_100_sorted.txt");
   experiment1(inputFile6);
   inputFile6.close();
-  
+
   // run experiment2 on unsorted lists
   inputFile.open("input_15_unsorted.txt");
   experiment2(inputFile);
@@ -411,12 +441,12 @@ int main() {
 
   // run experiment2 on sorted lists
   inputFile4.open("input_15_sorted.txt");
-  experiment2(inputFile4); 
+  experiment2(inputFile4);
   inputFile4.close();
   inputFile5.open("input_30_sorted.txt");
-  experiment2(inputFile5); 
+  experiment2(inputFile5);
   inputFile5.close();
   inputFile6.open("input_100_sorted.txt");
   experiment2(inputFile6);
-  inputFile6.close();
-}  
+  inputFile6.close();*/
+}
