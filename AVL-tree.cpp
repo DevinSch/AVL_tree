@@ -68,8 +68,8 @@ int getBalanceFactor(Node* N) {
   return height(N->left) - height(N->right);
 }
 
-Node* rebalnce(Node* node, int key) {
-  // Rebalnce the tree after adding the node
+Node* rebalance(Node* node, int key) {
+  // Rebalance the tree after adding the node
   node->height = 1 + max(height(node->left), height(node->right));
   int balanceFactor = getBalanceFactor(node);
   if (balanceFactor > 1) {
@@ -95,7 +95,7 @@ Node* addNode(Node* node, int key) {
   // add the node at an empty spot, or continue searching down the tree
   if (node == NULL) {
     Node* n = new Node(key, 1);
-    node = rebalnce(n, key);
+    node = rebalance(n, key);
   }
   if (key < node->key)
     node->left = addNode(node->left, key);
@@ -104,7 +104,7 @@ Node* addNode(Node* node, int key) {
   else
     return node;
 
-  node = rebalnce(node, key);
+  node = rebalance(node, key);
   return node;
 }
 
@@ -138,7 +138,7 @@ Node* removeNode(Node* node, int key) {
     }
   }
 
-  //node = rebalnce(node, 1);
+  //node = rebalance(node, 1);
   return node;
 }
 
@@ -191,7 +191,7 @@ void experiment1(std::ifstream& inputFile) {
   int temp;
 
   Node *root = NULL;
-  std::cout << std::endl << "Experiment 1: Reading from file to insert integers." << std::endl;
+  std::cout << std::endl << "Reading from file to insert integers." << std::endl;
 
   std::chrono::high_resolution_clock::time_point start1 = std::chrono::high_resolution_clock::now();
 
@@ -216,7 +216,7 @@ void experiment1(std::ifstream& inputFile) {
  std::cout << std::endl << std::endl;
 
   // Searching for 10 nodes
-   std::cout << "Searching for 10 nodes: 5, 20, 156, 1, 78, 1000, 15, 86, 14, 6, 99." << std::endl;
+   std::cout << "Searching for 10 elements: 5, 20, 156, 1, 78, 1000, 15, 86, 14, 6, 99." << std::endl;
 
   std::chrono::high_resolution_clock::time_point start2 = std::chrono::high_resolution_clock::now();
 
@@ -237,7 +237,7 @@ void experiment1(std::ifstream& inputFile) {
   std::cout << "Total time taken to search for 10 elements: " << duration2.count() << " nanoseconds" << std::endl;
 
   // Deleting 5 nodes
-  std::cout << "Deleting 5 nodes: 2, 62, 14, 283, 99; if they exist." << std::endl;
+  std::cout << "Deleting 5 elements: 2, 62, 14, 283, 99; if they exist." << std::endl;
 
   std::chrono::high_resolution_clock::time_point start3 = std::chrono::high_resolution_clock::now();
 
@@ -249,7 +249,7 @@ void experiment1(std::ifstream& inputFile) {
 
   std::chrono::high_resolution_clock::time_point stop3 = std::chrono::high_resolution_clock::now();
   std::chrono::nanoseconds duration3 = std::chrono::duration_cast<std::chrono::nanoseconds>(stop3 - start3);
-  std::cout << "Total time taken to delete and search for 5 elements: " << duration3.count() << " nanoseconds" << std::endl;
+  std::cout << "Total time taken to delete 5 elements: " << duration3.count() << " nanoseconds" << std::endl;
 
   displayTree(root, "", true);
 
@@ -263,7 +263,7 @@ void experiment2(std::ifstream& inputFile) {
   int temp;
 
   Node *root = NULL;
-  std::cout << std::endl << "Experiment 2: Reading from file to insert integers." << std::endl;
+  std::cout << std::endl << "Reading from file to insert integers." << std::endl;
 
   std::chrono::high_resolution_clock::time_point start1 = std::chrono::high_resolution_clock::now();
 
@@ -286,7 +286,7 @@ void experiment2(std::ifstream& inputFile) {
   displayTree(root, "", true);
 
   // Deleting nodes
-  std::cout << "Removing 10 nodes: 78, 1, 14, 66, 100, 30, 283, 4, 56, 32; if they exist." << std::endl;
+  std::cout << "Removing 10 elements: 78, 1, 14, 66, 100, 30, 283, 4, 56, 32; if they exist." << std::endl;
 
   std::chrono::high_resolution_clock::time_point start2 = std::chrono::high_resolution_clock::now();
 
@@ -304,14 +304,14 @@ void experiment2(std::ifstream& inputFile) {
 
   std::chrono::high_resolution_clock::time_point stop2 = std::chrono::high_resolution_clock::now();
   std::chrono::nanoseconds duration2 = std::chrono::duration_cast<std::chrono::nanoseconds>(stop2 - start2);
-  std::cout << "Total time taken to search for 10 elements: " << duration2.count() << " nanoseconds" << std::endl;
+  std::cout << "Total time taken to delete 10 elements: " << duration2.count() << " nanoseconds" << std::endl;
 
   displayTree(root, "", true);
 
   std::cout << std::endl << std::endl;
 
   // Searching for 15 nodes
-  std::cout << "Searching for 15 nodes: 5, 20, 156, 1, 78, 1000, 90, 204, 24, 2, 42, 99, 25, 12, 873." << std::endl;
+  std::cout << "Searching for 15 elements: 5, 20, 156, 1, 78, 1000, 90, 204, 24, 2, 42, 99, 25, 12, 873." << std::endl;
 
   std::chrono::high_resolution_clock::time_point start3 = std::chrono::high_resolution_clock::now();
 
@@ -333,7 +333,7 @@ void experiment2(std::ifstream& inputFile) {
 
   std::chrono::high_resolution_clock::time_point stop3 = std::chrono::high_resolution_clock::now();
   std::chrono::nanoseconds duration3 = std::chrono::duration_cast<std::chrono::nanoseconds>(stop3 - start3);
-  std::cout << "Total time taken to delete and search for 5 elements: " << duration3.count() << " nanoseconds" << std::endl;
+  std::cout << "Total time taken to search for 15 elements: " << duration3.count() << " nanoseconds" << std::endl;
 
   delete(root);
 
@@ -387,10 +387,10 @@ int main() {
   root = removeNode(root, 8);
   root = search(root,8);
   displayTree(root, "", true);
-  std::cout << "Total memory used " << MemoryUsed << "bytes " << std::endl;
+  std::cout << "Total memory used " << MemoryUsed << " bytes " << std::endl;
   destroy_tree(root);
-  std::cout << "Memory after free " << MemoryUsed << "bytes " << std::endl;
-/*
+  std::cout << "Memory after free " << MemoryUsed << " bytes " << std::endl;
+
   // Get ending timepoint
   std::chrono::high_resolution_clock::time_point stop2 = std::chrono::high_resolution_clock::now();
 
@@ -406,47 +406,131 @@ int main() {
   std::ifstream inputFile6;
 
 
-  // run experiment1 on unsorted lists
+  // run experiment1 on 3 unsorted lists
+
+  //Experiment 1.1
+  std::chrono::high_resolution_clock::time_point start_Exp1_1 = std::chrono::high_resolution_clock::now();
   inputFile.open("input_15_unsorted.txt");
+  std::cout << "Experiment 1.1: 15 unsorted elements" << std::endl;
   experiment1(inputFile);
   inputFile.close();
+  std::chrono::high_resolution_clock::time_point stop_Exp1_1 = std::chrono::high_resolution_clock::now();
+  std::chrono::nanoseconds duration_Exp1_1 = std::chrono::duration_cast<std::chrono::nanoseconds>(stop_Exp1_1 - start_Exp1_1);
+  std::cout << "Total Time taken by Experiment 1.1: " << duration_Exp1_1.count() << " nanoseconds" << std::endl << std::endl;
+
+  //Experiment 1.2
+  std::chrono::high_resolution_clock::time_point start_Exp1_2 = std::chrono::high_resolution_clock::now();
   inputFile2.open("input_30_unsorted.txt");
+  std::cout << "Experiment 1.2: 30 unsorted elements" << std::endl;
   experiment1(inputFile2);
   inputFile2.close();
+  std::chrono::high_resolution_clock::time_point stop_Exp1_2 = std::chrono::high_resolution_clock::now();
+  std::chrono::nanoseconds duration_Exp1_2 = std::chrono::duration_cast<std::chrono::nanoseconds>(stop_Exp1_2 - start_Exp1_2);
+  std::cout << "Total Time taken by Experiment 1.2: " << duration_Exp1_2.count() << " nanoseconds" << std::endl << std::endl;
+  
+  //Experiment 1.3
+  std::chrono::high_resolution_clock::time_point start_Exp1_3 = std::chrono::high_resolution_clock::now();
   inputFile3.open("input_100_unsorted.txt");
+  std::cout << "Experiment 1.3: 100 unsorted elements" << std::endl;
   experiment1(inputFile3);
   inputFile3.close();
+  std::chrono::high_resolution_clock::time_point stop_Exp1_3 = std::chrono::high_resolution_clock::now();
+  std::chrono::nanoseconds duration_Exp1_3 = std::chrono::duration_cast<std::chrono::nanoseconds>(stop_Exp1_3 - start_Exp1_3);
+  std::cout << "Total Time taken by Experiment 1.3: " << duration_Exp1_3.count() << " nanoseconds" << std::endl << std::endl;
 
-  // run experiment1 on sorted lists
+  // run experiment1 on 3 sorted lists
+
+  //Experiment 1.4
+  std::chrono::high_resolution_clock::time_point start_Exp1_4 = std::chrono::high_resolution_clock::now();
   inputFile4.open("input_15_sorted.txt");
+  std::cout << "Experiment 1.4: 15 sorted elements" << std::endl;
   experiment1(inputFile4);
   inputFile4.close();
+  std::chrono::high_resolution_clock::time_point stop_Exp1_4 = std::chrono::high_resolution_clock::now();
+  std::chrono::nanoseconds duration_Exp1_4 = std::chrono::duration_cast<std::chrono::nanoseconds>(stop_Exp1_4 - start_Exp1_4);
+  std::cout << "Total Time taken by Experiment 1.4: " << duration_Exp1_4.count() << " nanoseconds" << std::endl << std::endl;
+
+  //Experiment 1.5
+  std::chrono::high_resolution_clock::time_point start_Exp1_5 = std::chrono::high_resolution_clock::now();
   inputFile5.open("input_30_sorted.txt");
+  std::cout << "Experiment 1.5: 30 sorted elements" << std::endl;
   experiment1(inputFile5);
   inputFile5.close();
+  std::chrono::high_resolution_clock::time_point stop_Exp1_5 = std::chrono::high_resolution_clock::now();
+  std::chrono::nanoseconds duration_Exp1_5 = std::chrono::duration_cast<std::chrono::nanoseconds>(stop_Exp1_5 - start_Exp1_5);
+  std::cout << "Total Time taken by Experiment 1.5: " << duration_Exp1_5.count() << " nanoseconds" << std::endl << std::endl;
+
+  //Experiment 1.6
+  std::chrono::high_resolution_clock::time_point start_Exp1_6 = std::chrono::high_resolution_clock::now();
   inputFile6.open("input_100_sorted.txt");
+  std::cout << "Experiment 1.6: 100 sorted elements" << std::endl;
   experiment1(inputFile6);
   inputFile6.close();
+  std::chrono::high_resolution_clock::time_point stop_Exp1_6 = std::chrono::high_resolution_clock::now();
+  std::chrono::nanoseconds duration_Exp1_6 = std::chrono::duration_cast<std::chrono::nanoseconds>(stop_Exp1_6 - start_Exp1_6);
+  std::cout << "Total Time taken by Experiment 1.6: " << duration_Exp1_6.count() << " nanoseconds" << std::endl << std::endl;
 
-  // run experiment2 on unsorted lists
+  // run experiment2 on 3 unsorted lists
+
+  //Experiment 2.1
+  std::chrono::high_resolution_clock::time_point start_Exp2_1 = std::chrono::high_resolution_clock::now();
   inputFile.open("input_15_unsorted.txt");
+  std::cout << "Experiment 2.1: 15 unsorted elements" << std::endl;
   experiment2(inputFile);
   inputFile.close();
+  std::chrono::high_resolution_clock::time_point stop_Exp2_1 = std::chrono::high_resolution_clock::now();
+  std::chrono::nanoseconds duration_Exp2_1 = std::chrono::duration_cast<std::chrono::nanoseconds>(stop_Exp2_1 - start_Exp2_1);
+  std::cout << "Total Time taken by Experiment 2.1: " << duration_Exp2_1.count() << " nanoseconds" << std::endl << std::endl;
+
+  //Experiment 2.2
+  std::chrono::high_resolution_clock::time_point start_Exp2_2 = std::chrono::high_resolution_clock::now();
   inputFile2.open("input_30_unsorted.txt");
+  std::cout << "Experiment 2.2: 30 unsorted elements" << std::endl;
   experiment2(inputFile2);
   inputFile2.close();
+  std::chrono::high_resolution_clock::time_point stop_Exp2_2 = std::chrono::high_resolution_clock::now();
+  std::chrono::nanoseconds duration_Exp2_2 = std::chrono::duration_cast<std::chrono::nanoseconds>(stop_Exp2_2 - start_Exp2_2);
+  std::cout << "Total Time taken by Experiment 2.2: " << duration_Exp2_2.count() << " nanoseconds" << std::endl << std::endl;
+
+  //Experiment 2.6
+  std::chrono::high_resolution_clock::time_point start_Exp2_3 = std::chrono::high_resolution_clock::now();
   inputFile3.open("input_100_unsorted.txt");
+  std::cout << "Experiment 2.3: 100 unsorted elements" << std::endl;
   experiment2(inputFile3);
   inputFile3.close();
+  std::chrono::high_resolution_clock::time_point stop_Exp2_3 = std::chrono::high_resolution_clock::now();
+  std::chrono::nanoseconds duration_Exp2_3 = std::chrono::duration_cast<std::chrono::nanoseconds>(stop_Exp2_3 - start_Exp2_3);
+  std::cout << "Total Time taken by Experiment 2.3: " << duration_Exp2_3.count() << " nanoseconds" << std::endl << std::endl;
 
-  // run experiment2 on sorted lists
+  // run experiment2 on 3 sorted lists
+
+  // Experiment 2.4
+  std::chrono::high_resolution_clock::time_point start_Exp2_4 = std::chrono::high_resolution_clock::now();
   inputFile4.open("input_15_sorted.txt");
+  std::cout << "Experiment 2.4: 15 sorted elements" << std::endl;
   experiment2(inputFile4);
   inputFile4.close();
+  std::chrono::high_resolution_clock::time_point stop_Exp2_4 = std::chrono::high_resolution_clock::now();
+  std::chrono::nanoseconds duration_Exp2_4 = std::chrono::duration_cast<std::chrono::nanoseconds>(stop_Exp2_4 - start_Exp2_4);
+  std::cout << "Total Time taken by Experiment 2.4: " << duration_Exp2_4.count() << " nanoseconds" << std::endl << std::endl;
+
+  // Experiment 2.5
+  std::chrono::high_resolution_clock::time_point start_Exp2_5 = std::chrono::high_resolution_clock::now();
   inputFile5.open("input_30_sorted.txt");
+  std::cout << "Experiment 2.5: 30 sorted elements" << std::endl;
   experiment2(inputFile5);
   inputFile5.close();
+  std::chrono::high_resolution_clock::time_point stop_Exp2_5 = std::chrono::high_resolution_clock::now();
+  std::chrono::nanoseconds duration_Exp2_5 = std::chrono::duration_cast<std::chrono::nanoseconds>(stop_Exp2_5 - start_Exp2_5);
+  std::cout << "Total Time taken by Experiment 2.5: " << duration_Exp2_5.count() << " nanoseconds" << std::endl << std::endl;
+
+  // Experiment 2.6
+  std::chrono::high_resolution_clock::time_point start_Exp2_6 = std::chrono::high_resolution_clock::now();
   inputFile6.open("input_100_sorted.txt");
+  std::cout << "Experiment 2.6: 100 sorted elements" << std::endl;
   experiment2(inputFile6);
-  inputFile6.close();*/
+  inputFile6.close();
+  std::chrono::high_resolution_clock::time_point stop_Exp2_6 = std::chrono::high_resolution_clock::now();
+  std::chrono::nanoseconds duration_Exp2_6 = std::chrono::duration_cast<std::chrono::nanoseconds>(stop_Exp2_6 - start_Exp2_6);
+  std::cout << "Total Time taken by Experiment 2.6: " << duration_Exp2_6.count() << " nanoseconds" << std::endl << std::endl;
 }
