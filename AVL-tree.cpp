@@ -191,7 +191,7 @@ void experiment1(std::ifstream& inputFile) {
   int temp;
 
   Node *root = NULL;
-  std::cout << std::endl << "Reading from file to insert integers." << std::endl;
+  std::cout << std::endl << "Reading from file to insert elements." << std::endl;
 
   std::chrono::high_resolution_clock::time_point start1 = std::chrono::high_resolution_clock::now();
 
@@ -253,7 +253,11 @@ void experiment1(std::ifstream& inputFile) {
 
   displayTree(root, "", true);
 
-  delete(root);
+  std::cout << "Total memory used: " << MemoryUsed << " bytes." << std::endl;
+
+  destroy_tree(root);
+
+  std::cout << "Memory after free: " << MemoryUsed << " bytes." << std::endl;
 
   std::cout << std::endl << std::endl;
 }
@@ -263,7 +267,7 @@ void experiment2(std::ifstream& inputFile) {
   int temp;
 
   Node *root = NULL;
-  std::cout << std::endl << "Reading from file to insert integers." << std::endl;
+  std::cout << std::endl << "Reading from file to insert elements." << std::endl;
 
   std::chrono::high_resolution_clock::time_point start1 = std::chrono::high_resolution_clock::now();
 
@@ -334,8 +338,12 @@ void experiment2(std::ifstream& inputFile) {
   std::chrono::high_resolution_clock::time_point stop3 = std::chrono::high_resolution_clock::now();
   std::chrono::nanoseconds duration3 = std::chrono::duration_cast<std::chrono::nanoseconds>(stop3 - start3);
   std::cout << "Total time taken to search for 15 elements: " << duration3.count() << " nanoseconds" << std::endl;
+  
+  std::cout << "Total memory used: " << MemoryUsed << " bytes." << std::endl;
 
-  delete(root);
+  destroy_tree(root);
+
+  std::cout << "Memory after free: " << MemoryUsed << " bytes." << std::endl;
 
   std::cout << std::endl << std::endl;
 }
@@ -404,7 +412,6 @@ int main() {
   std::ifstream inputFile4;
   std::ifstream inputFile5;
   std::ifstream inputFile6;
-
 
   // run experiment1 on 3 unsorted lists
 
