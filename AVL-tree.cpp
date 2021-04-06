@@ -21,14 +21,16 @@ class Node {
 
 // Override the new operator to keep track of memory being used when new is called
 void* operator new(size_t size) {
-  std::cout << "Allocating " << size << " bytes" << std::endl;
+  // Message used for testing when the function is called
+  // std::cout << "Allocating " << size << " bytes" << std::endl;
   MemoryUsed += size;
   return malloc(size);
 }
 
 // Overside the delete operator to keep track of memory being freed when delete is called
 void operator delete(void* memory, size_t size) {
-  std::cout << "Deallocating " << size << " bytes" << std::endl;
+  // Message used for testing when the function is called
+  // std::cout << "Deallocating " << size << " bytes" << std::endl;
   MemoryUsed -= size;
   free(memory);
 }
@@ -235,6 +237,7 @@ void experiment1(std::ifstream& inputFile) {
   std::chrono::high_resolution_clock::time_point stop2 = std::chrono::high_resolution_clock::now();
   std::chrono::nanoseconds duration2 = std::chrono::duration_cast<std::chrono::nanoseconds>(stop2 - start2);
   std::cout << "Total time taken to search for 10 elements: " << duration2.count() << " nanoseconds" << std::endl;
+  std::cout << "Total memory used: " << MemoryUsed << " bytes." << std::endl;
 
   // Deleting 5 nodes
   std::cout << "Deleting 5 elements: 2, 62, 14, 283, 99; if they exist." << std::endl;
@@ -252,9 +255,6 @@ void experiment1(std::ifstream& inputFile) {
   std::cout << "Total time taken to delete 5 elements: " << duration3.count() << " nanoseconds" << std::endl;
 
   displayTree(root, "", true);
-
-  std::cout << "Total memory used: " << MemoryUsed << " bytes." << std::endl;
-
   destroy_tree(root);
 
   std::cout << "Memory after free: " << MemoryUsed << " bytes." << std::endl;
@@ -286,7 +286,7 @@ void experiment2(std::ifstream& inputFile) {
   std::chrono::high_resolution_clock::time_point stop1 = std::chrono::high_resolution_clock::now();
   std::chrono::nanoseconds duration1 = std::chrono::duration_cast<std::chrono::nanoseconds>(stop1 - start1);
   std::cout << "Total time taken to add all elements to tree from file: " << duration1.count() << " nanoseconds" << std::endl;
-
+  std::cout << "Total memory used: " << MemoryUsed << " bytes." << std::endl;
   displayTree(root, "", true);
 
   // Deleting nodes
@@ -338,8 +338,6 @@ void experiment2(std::ifstream& inputFile) {
   std::chrono::high_resolution_clock::time_point stop3 = std::chrono::high_resolution_clock::now();
   std::chrono::nanoseconds duration3 = std::chrono::duration_cast<std::chrono::nanoseconds>(stop3 - start3);
   std::cout << "Total time taken to search for 15 elements: " << duration3.count() << " nanoseconds" << std::endl;
-
-  std::cout << "Total memory used: " << MemoryUsed << " bytes." << std::endl;
 
   destroy_tree(root);
 
