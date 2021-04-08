@@ -405,263 +405,54 @@ int main() {
   // std::cout << "Time taken by displayTree function: " << duration2.count() << " nanoseconds" << std::endl;
 
   std::ifstream inputFile;
-  std::ifstream inputFile2;
-  std::ifstream inputFile3;
-  std::ifstream inputFile4;
-  std::ifstream inputFile5;
-  std::ifstream inputFile6;
-  std::ifstream inputFile7;
-  std::ifstream inputFile8;
-  std::ifstream inputFile9;
-  std::ifstream inputFile10;
-  std::ifstream inputFile11;
-  std::ifstream inputFile12;
+  std::string unsorted_files[6] = { "input_15_unsorted.txt", "input_30_unsorted.txt", "input_45_unsorted.txt", "input_60_unsorted.txt", "input_75_unsorted.txt", "input_90_unsorted.txt" };
+  std::string sorted_files[6] = { "input_15_sorted.txt", "input_30_sorted.txt", "input_45_sorted.txt", "input_60_sorted.txt", "input_75_sorted.txt", "input_90_sorted.txt" };
 
   // run experiment1 on 6 unsorted lists
-
-  //Experiment 1.1
-  std::chrono::high_resolution_clock::time_point start_Exp1_1 = std::chrono::high_resolution_clock::now();
-  inputFile.open("input_15_unsorted.txt");
-  std::cout << "Experiment 1.1: 15 unsorted elements" << std::endl;
-  experiment1(inputFile);
-  inputFile.close();
-  std::chrono::high_resolution_clock::time_point stop_Exp1_1 = std::chrono::high_resolution_clock::now();
-  std::chrono::nanoseconds duration_Exp1_1 = std::chrono::duration_cast<std::chrono::nanoseconds>(stop_Exp1_1 - start_Exp1_1);
-  std::cout << "Total Time taken by Experiment 1.1: " << duration_Exp1_1.count() << " nanoseconds" << std::endl << std::endl;
-
-  //Experiment 1.2
-  std::chrono::high_resolution_clock::time_point start_Exp1_2 = std::chrono::high_resolution_clock::now();
-  inputFile2.open("input_30_unsorted.txt");
-  std::cout << "Experiment 1.2: 30 unsorted elements" << std::endl;
-  experiment1(inputFile2);
-  inputFile2.close();
-  std::chrono::high_resolution_clock::time_point stop_Exp1_2 = std::chrono::high_resolution_clock::now();
-  std::chrono::nanoseconds duration_Exp1_2 = std::chrono::duration_cast<std::chrono::nanoseconds>(stop_Exp1_2 - start_Exp1_2);
-  std::cout << "Total Time taken by Experiment 1.2: " << duration_Exp1_2.count() << " nanoseconds" << std::endl << std::endl;
-
-  //Experiment 1.3
-  std::chrono::high_resolution_clock::time_point start_Exp1_3 = std::chrono::high_resolution_clock::now();
-  inputFile3.open("input_45_unsorted.txt");
-  std::cout << "Experiment 1.3: 45 unsorted elements" << std::endl;
-  experiment1(inputFile3);
-  inputFile3.close();
-  std::chrono::high_resolution_clock::time_point stop_Exp1_3 = std::chrono::high_resolution_clock::now();
-  std::chrono::nanoseconds duration_Exp1_3 = std::chrono::duration_cast<std::chrono::nanoseconds>(stop_Exp1_3 - start_Exp1_3);
-  std::cout << "Total Time taken by Experiment 1.3: " << duration_Exp1_3.count() << " nanoseconds" << std::endl << std::endl;
-
-  //Experiment 1.4
-  std::chrono::high_resolution_clock::time_point start_Exp1_4 = std::chrono::high_resolution_clock::now();
-  inputFile4.open("input_60_unsorted.txt");
-  std::cout << "Experiment 1.4: 60 unsorted elements" << std::endl;
-  experiment1(inputFile4);
-  inputFile4.close();
-  std::chrono::high_resolution_clock::time_point stop_Exp1_4 = std::chrono::high_resolution_clock::now();
-  std::chrono::nanoseconds duration_Exp1_4 = std::chrono::duration_cast<std::chrono::nanoseconds>(stop_Exp1_4 - start_Exp1_4);
-  std::cout << "Total Time taken by Experiment 1.4: " << duration_Exp1_4.count() << " nanoseconds" << std::endl << std::endl;
-
-  //Experiment 1.5
-  std::chrono::high_resolution_clock::time_point start_Exp1_5 = std::chrono::high_resolution_clock::now();
-  inputFile5.open("input_75_unsorted.txt");
-  std::cout << "Experiment 1.5: 75 unsorted elements" << std::endl;
-  experiment1(inputFile5);
-  inputFile5.close();
-  std::chrono::high_resolution_clock::time_point stop_Exp1_5 = std::chrono::high_resolution_clock::now();
-  std::chrono::nanoseconds duration_Exp1_5 = std::chrono::duration_cast<std::chrono::nanoseconds>(stop_Exp1_5 - start_Exp1_5);
-  std::cout << "Total Time taken by Experiment 1.5: " << duration_Exp1_5.count() << " nanoseconds" << std::endl << std::endl;
-
-  //Experiment 1.6
-  std::chrono::high_resolution_clock::time_point start_Exp1_6 = std::chrono::high_resolution_clock::now();
-  inputFile6.open("input_90_unsorted.txt");
-  std::cout << "Experiment 1.6: 90 unsorted elements" << std::endl;
-  experiment1(inputFile6);
-  inputFile6.close();
-  std::chrono::high_resolution_clock::time_point stop_Exp1_6 = std::chrono::high_resolution_clock::now();
-  std::chrono::nanoseconds duration_Exp1_6 = std::chrono::duration_cast<std::chrono::nanoseconds>(stop_Exp1_6 - start_Exp1_6);
-  std::cout << "Total Time taken by Experiment 1.6: " << duration_Exp1_6.count() << " nanoseconds" << std::endl << std::endl;
+  for (int i=0; i < 6; i++) {
+    std::chrono::high_resolution_clock::time_point start_time = std::chrono::high_resolution_clock::now();
+    inputFile.open(unsorted_files[i]);
+    std::cout << "Experiment 1." << i+1 << ": " << 15*(i+1) << " unsorted elements" << std::endl;
+    experiment1(inputFile);
+    inputFile.close();
+    std::chrono::high_resolution_clock::time_point stop_time = std::chrono::high_resolution_clock::now();
+    std::chrono::nanoseconds total_duration = std::chrono::duration_cast<std::chrono::nanoseconds>(stop_time - start_time);
+    std::cout << "Total Time taken by Experiment 1." << i+1 << ": " << total_duration.count() << " nanoseconds" << std::endl << std::endl;
+  }
 
   // run experiment1 on 6 sorted lists
-
-  //Experiment 1.7
-  std::chrono::high_resolution_clock::time_point start_Exp1_7 = std::chrono::high_resolution_clock::now();
-  inputFile7.open("input_15_sorted.txt");
-  std::cout << "Experiment 1.7: 15 sorted elements" << std::endl;
-  experiment1(inputFile7);
-  inputFile7.close();
-  std::chrono::high_resolution_clock::time_point stop_Exp1_7 = std::chrono::high_resolution_clock::now();
-  std::chrono::nanoseconds duration_Exp1_7 = std::chrono::duration_cast<std::chrono::nanoseconds>(stop_Exp1_7 - start_Exp1_7);
-  std::cout << "Total Time taken by Experiment 1.7: " << duration_Exp1_7.count() << " nanoseconds" << std::endl << std::endl;
-
-  //Experiment 1.8
-  std::chrono::high_resolution_clock::time_point start_Exp1_8 = std::chrono::high_resolution_clock::now();
-  inputFile8.open("input_30_sorted.txt");
-  std::cout << "Experiment 1.8: 30 sorted elements" << std::endl;
-  experiment1(inputFile8);
-  inputFile8.close();
-  std::chrono::high_resolution_clock::time_point stop_Exp1_8 = std::chrono::high_resolution_clock::now();
-  std::chrono::nanoseconds duration_Exp1_8 = std::chrono::duration_cast<std::chrono::nanoseconds>(stop_Exp1_8 - start_Exp1_8);
-  std::cout << "Total Time taken by Experiment 1.8: " << duration_Exp1_8.count() << " nanoseconds" << std::endl << std::endl;
-
-  //Experiment 1.9
-  std::chrono::high_resolution_clock::time_point start_Exp1_9 = std::chrono::high_resolution_clock::now();
-  inputFile9.open("input_45_sorted.txt");
-  std::cout << "Experiment 1.9: 45 sorted elements" << std::endl;
-  experiment1(inputFile9);
-  inputFile9.close();
-  std::chrono::high_resolution_clock::time_point stop_Exp1_9 = std::chrono::high_resolution_clock::now();
-  std::chrono::nanoseconds duration_Exp1_9 = std::chrono::duration_cast<std::chrono::nanoseconds>(stop_Exp1_9 - start_Exp1_9);
-  std::cout << "Total Time taken by Experiment 1.9: " << duration_Exp1_9.count() << " nanoseconds" << std::endl << std::endl;
-
-  //Experiment 1.10
-  std::chrono::high_resolution_clock::time_point start_Exp1_10 = std::chrono::high_resolution_clock::now();
-  inputFile10.open("input_60_sorted.txt");
-  std::cout << "Experiment 1.10: 60 sorted elements" << std::endl;
-  experiment1(inputFile10);
-  inputFile10.close();
-  std::chrono::high_resolution_clock::time_point stop_Exp1_10 = std::chrono::high_resolution_clock::now();
-  std::chrono::nanoseconds duration_Exp1_10 = std::chrono::duration_cast<std::chrono::nanoseconds>(stop_Exp1_10 - start_Exp1_10);
-  std::cout << "Total Time taken by Experiment 1.10: " << duration_Exp1_10.count() << " nanoseconds" << std::endl << std::endl;
-
-  //Experiment 1.11
-  std::chrono::high_resolution_clock::time_point start_Exp1_11 = std::chrono::high_resolution_clock::now();
-  inputFile11.open("input_75_sorted.txt");
-  std::cout << "Experiment 1.11: 75 sorted elements" << std::endl;
-  experiment1(inputFile11);
-  inputFile11.close();
-  std::chrono::high_resolution_clock::time_point stop_Exp1_11 = std::chrono::high_resolution_clock::now();
-  std::chrono::nanoseconds duration_Exp1_11 = std::chrono::duration_cast<std::chrono::nanoseconds>(stop_Exp1_11 - start_Exp1_11);
-  std::cout << "Total Time taken by Experiment 1.11: " << duration_Exp1_11.count() << " nanoseconds" << std::endl << std::endl;
-
-  //Experiment 1.12
-  std::chrono::high_resolution_clock::time_point start_Exp1_12 = std::chrono::high_resolution_clock::now();
-  inputFile12.open("input_90_sorted.txt");
-  std::cout << "Experiment 1.12: 90 sorted elements" << std::endl;
-  experiment1(inputFile12);
-  inputFile12.close();
-  std::chrono::high_resolution_clock::time_point stop_Exp1_12 = std::chrono::high_resolution_clock::now();
-  std::chrono::nanoseconds duration_Exp1_12 = std::chrono::duration_cast<std::chrono::nanoseconds>(stop_Exp1_12 - start_Exp1_12);
-  std::cout << "Total Time taken by Experiment 1.12: " << duration_Exp1_12.count() << " nanoseconds" << std::endl << std::endl;
+  for (int i=0; i < 6; i++) {
+    std::chrono::high_resolution_clock::time_point start_time = std::chrono::high_resolution_clock::now();
+    inputFile.open(sorted_files[i]);
+    std::cout << "Experiment 1." << i+7 << ": " << 15*(i+1) << " sorted elements" << std::endl;
+    experiment1(inputFile);
+    inputFile.close();
+    std::chrono::high_resolution_clock::time_point stop_time = std::chrono::high_resolution_clock::now();
+    std::chrono::nanoseconds total_duration = std::chrono::duration_cast<std::chrono::nanoseconds>(stop_time - start_time);
+    std::cout << "Total Time taken by Experiment 1." << i+7 << ": " << total_duration.count() << " nanoseconds" << std::endl << std::endl;
+  }
 
   // run experiment2 on 6 unsorted lists
-
-  //Experiment 2.1
-  std::chrono::high_resolution_clock::time_point start_Exp2_1 = std::chrono::high_resolution_clock::now();
-  inputFile.open("input_15_unsorted.txt");
-  std::cout << "Experiment 2.1: 15 unsorted elements" << std::endl;
-  experiment2(inputFile);
-  inputFile.close();
-  std::chrono::high_resolution_clock::time_point stop_Exp2_1 = std::chrono::high_resolution_clock::now();
-  std::chrono::nanoseconds duration_Exp2_1 = std::chrono::duration_cast<std::chrono::nanoseconds>(stop_Exp2_1 - start_Exp2_1);
-  std::cout << "Total Time taken by Experiment 2.1: " << duration_Exp2_1.count() << " nanoseconds" << std::endl << std::endl;
-
-  //Experiment 2.2
-  std::chrono::high_resolution_clock::time_point start_Exp2_2 = std::chrono::high_resolution_clock::now();
-  inputFile2.open("input_30_unsorted.txt");
-  std::cout << "Experiment 2.2: 30 unsorted elements" << std::endl;
-  experiment2(inputFile2);
-  inputFile2.close();
-  std::chrono::high_resolution_clock::time_point stop_Exp2_2 = std::chrono::high_resolution_clock::now();
-  std::chrono::nanoseconds duration_Exp2_2 = std::chrono::duration_cast<std::chrono::nanoseconds>(stop_Exp2_2 - start_Exp2_2);
-  std::cout << "Total Time taken by Experiment 2.2: " << duration_Exp2_2.count() << " nanoseconds" << std::endl << std::endl;
-
-  //Experiment 2.3
-  std::chrono::high_resolution_clock::time_point start_Exp2_3 = std::chrono::high_resolution_clock::now();
-  inputFile3.open("input_45_unsorted.txt");
-  std::cout << "Experiment 2.3: 45 unsorted elements" << std::endl;
-  experiment2(inputFile3);
-  inputFile3.close();
-  std::chrono::high_resolution_clock::time_point stop_Exp2_3 = std::chrono::high_resolution_clock::now();
-  std::chrono::nanoseconds duration_Exp2_3 = std::chrono::duration_cast<std::chrono::nanoseconds>(stop_Exp2_3 - start_Exp2_3);
-  std::cout << "Total Time taken by Experiment 2.3: " << duration_Exp2_3.count() << " nanoseconds" << std::endl << std::endl;
-
-  // Experiment 2.4
-  std::chrono::high_resolution_clock::time_point start_Exp2_4 = std::chrono::high_resolution_clock::now();
-  inputFile4.open("input_60_unsorted.txt");
-  std::cout << "Experiment 2.4: 60 unsorted elements" << std::endl;
-  experiment2(inputFile4);
-  inputFile4.close();
-  std::chrono::high_resolution_clock::time_point stop_Exp2_4 = std::chrono::high_resolution_clock::now();
-  std::chrono::nanoseconds duration_Exp2_4 = std::chrono::duration_cast<std::chrono::nanoseconds>(stop_Exp2_4 - start_Exp2_4);
-  std::cout << "Total Time taken by Experiment 2.4: " << duration_Exp2_4.count() << " nanoseconds" << std::endl << std::endl;
-
-  // Experiment 2.5
-  std::chrono::high_resolution_clock::time_point start_Exp2_5 = std::chrono::high_resolution_clock::now();
-  inputFile5.open("input_75_unsorted.txt");
-  std::cout << "Experiment 2.5: 75 unsorted elements" << std::endl;
-  experiment2(inputFile5);
-  inputFile5.close();
-  std::chrono::high_resolution_clock::time_point stop_Exp2_5 = std::chrono::high_resolution_clock::now();
-  std::chrono::nanoseconds duration_Exp2_5 = std::chrono::duration_cast<std::chrono::nanoseconds>(stop_Exp2_5 - start_Exp2_5);
-  std::cout << "Total Time taken by Experiment 2.5: " << duration_Exp2_5.count() << " nanoseconds" << std::endl << std::endl;
-
-  // Experiment 2.6
-  std::chrono::high_resolution_clock::time_point start_Exp2_6 = std::chrono::high_resolution_clock::now();
-  inputFile6.open("input_90_unsorted.txt");
-  std::cout << "Experiment 2.6: 90 unsorted elements" << std::endl;
-  experiment2(inputFile6);
-  inputFile6.close();
-  std::chrono::high_resolution_clock::time_point stop_Exp2_6 = std::chrono::high_resolution_clock::now();
-  std::chrono::nanoseconds duration_Exp2_6 = std::chrono::duration_cast<std::chrono::nanoseconds>(stop_Exp2_6 - start_Exp2_6);
-  std::cout << "Total Time taken by Experiment 2.6: " << duration_Exp2_6.count() << " nanoseconds" << std::endl << std::endl;
+  for (int i=0; i < 6; i++) {
+    std::chrono::high_resolution_clock::time_point start_time = std::chrono::high_resolution_clock::now();
+    inputFile.open(unsorted_files[i]);
+    std::cout << "Experiment 2." << i+1 << ": " << 15*(i+1) << " unsorted elements" << std::endl;
+    experiment2(inputFile);
+    inputFile.close();
+    std::chrono::high_resolution_clock::time_point stop_time = std::chrono::high_resolution_clock::now();
+    std::chrono::nanoseconds total_duration = std::chrono::duration_cast<std::chrono::nanoseconds>(stop_time - start_time);
+    std::cout << "Total Time taken by Experiment 2." << i+1 << ": " << total_duration.count() << " nanoseconds" << std::endl << std::endl;
+  }
 
   // run experiment2 on 6 sorted lists
-
-  //Experiment 2.7
-  std::chrono::high_resolution_clock::time_point start_Exp2_7 = std::chrono::high_resolution_clock::now();
-  inputFile7.open("input_15_sorted.txt");
-  std::cout << "Experiment 2.7: 15 sorted elements" << std::endl;
-  experiment2(inputFile7);
-  inputFile7.close();
-  std::chrono::high_resolution_clock::time_point stop_Exp2_7 = std::chrono::high_resolution_clock::now();
-  std::chrono::nanoseconds duration_Exp2_7 = std::chrono::duration_cast<std::chrono::nanoseconds>(stop_Exp2_7 - start_Exp2_7);
-  std::cout << "Total Time taken by Experiment 2.7: " << duration_Exp2_7.count() << " nanoseconds" << std::endl << std::endl;
-
-  //Experiment 2.8
-  std::chrono::high_resolution_clock::time_point start_Exp2_8 = std::chrono::high_resolution_clock::now();
-  inputFile8.open("input_30_sorted.txt");
-  std::cout << "Experiment 2.8: 30 sorted elements" << std::endl;
-  experiment2(inputFile8);
-  inputFile8.close();
-  std::chrono::high_resolution_clock::time_point stop_Exp2_8 = std::chrono::high_resolution_clock::now();
-  std::chrono::nanoseconds duration_Exp2_8 = std::chrono::duration_cast<std::chrono::nanoseconds>(stop_Exp2_8 - start_Exp2_8);
-  std::cout << "Total Time taken by Experiment 2.8: " << duration_Exp2_8.count() << " nanoseconds" << std::endl << std::endl;
-
-  //Experiment 2.9
-  std::chrono::high_resolution_clock::time_point start_Exp2_9 = std::chrono::high_resolution_clock::now();
-  inputFile9.open("input_45_sorted.txt");
-  std::cout << "Experiment 2.9: 45 sorted elements" << std::endl;
-  experiment2(inputFile9);
-  inputFile9.close();
-  std::chrono::high_resolution_clock::time_point stop_Exp2_9 = std::chrono::high_resolution_clock::now();
-  std::chrono::nanoseconds duration_Exp2_9 = std::chrono::duration_cast<std::chrono::nanoseconds>(stop_Exp2_9 - start_Exp2_9);
-  std::cout << "Total Time taken by Experiment 2.9: " << duration_Exp2_9.count() << " nanoseconds" << std::endl << std::endl;
-
-  //Experiment 2.10
-  std::chrono::high_resolution_clock::time_point start_Exp2_10 = std::chrono::high_resolution_clock::now();
-  inputFile10.open("input_60_sorted.txt");
-  std::cout << "Experiment 2.10: 60 sorted elements" << std::endl;
-  experiment2(inputFile10);
-  inputFile10.close();
-  std::chrono::high_resolution_clock::time_point stop_Exp2_10 = std::chrono::high_resolution_clock::now();
-  std::chrono::nanoseconds duration_Exp2_10 = std::chrono::duration_cast<std::chrono::nanoseconds>(stop_Exp2_10 - start_Exp2_10);
-  std::cout << "Total Time taken by Experiment 2.10: " << duration_Exp2_10.count() << " nanoseconds" << std::endl << std::endl;
-
-  //Experiment 2.11
-  std::chrono::high_resolution_clock::time_point start_Exp2_11 = std::chrono::high_resolution_clock::now();
-  inputFile11.open("input_75_sorted.txt");
-  std::cout << "Experiment 2.11: 75 sorted elements" << std::endl;
-  experiment2(inputFile11);
-  inputFile11.close();
-  std::chrono::high_resolution_clock::time_point stop_Exp2_11 = std::chrono::high_resolution_clock::now();
-  std::chrono::nanoseconds duration_Exp2_11 = std::chrono::duration_cast<std::chrono::nanoseconds>(stop_Exp2_11 - start_Exp2_11);
-  std::cout << "Total Time taken by Experiment 2.11: " << duration_Exp2_11.count() << " nanoseconds" << std::endl << std::endl;
-
-  //Experiment 2.12
-  std::chrono::high_resolution_clock::time_point start_Exp2_12 = std::chrono::high_resolution_clock::now();
-  inputFile12.open("input_90_sorted.txt");
-  std::cout << "Experiment 2.12: 90 sorted elements" << std::endl;
-  experiment2(inputFile12);
-  inputFile12.close();
-  std::chrono::high_resolution_clock::time_point stop_Exp2_12 = std::chrono::high_resolution_clock::now();
-  std::chrono::nanoseconds duration_Exp2_12 = std::chrono::duration_cast<std::chrono::nanoseconds>(stop_Exp2_12 - start_Exp2_12);
-  std::cout << "Total Time taken by Experiment 2.12: " << duration_Exp2_12.count() << " nanoseconds" << std::endl << std::endl;
+  for (int i=0; i < 6; i++) {
+    std::chrono::high_resolution_clock::time_point start_time = std::chrono::high_resolution_clock::now();
+    inputFile.open(sorted_files[i]);
+    std::cout << "Experiment 2." << i+7 << ": " << 15*(i+1) << " sorted elements" << std::endl;
+    experiment2(inputFile);
+    inputFile.close();
+    std::chrono::high_resolution_clock::time_point stop_time = std::chrono::high_resolution_clock::now();
+    std::chrono::nanoseconds total_duration = std::chrono::duration_cast<std::chrono::nanoseconds>(stop_time - start_time);
+    std::cout << "Total Time taken by Experiment 2." << i+7 << ": " << total_duration.count() << " nanoseconds" << std::endl << std::endl;
+  }
 }
